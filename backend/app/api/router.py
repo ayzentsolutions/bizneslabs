@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.routes import auth, organizations, agents, inventory, knowledge, runtime, leads, appointments, analytics, health, crm, dashboard, platform, voice
+from app.api.routes import auth, organizations, agents, inventory, knowledge, runtime, leads, appointments, analytics, health, crm, dashboard, platform, voice, subscriptions, onboarding, users
 
 api_router=APIRouter()
 api_router.include_router(health.router,prefix="/health",tags=["health"])
@@ -11,5 +11,5 @@ api_router.include_router(knowledge.router,prefix="/knowledge",tags=["knowledge"
 api_router.include_router(runtime.router,prefix="/runtime",tags=["runtime"])
 api_router.include_router(leads.router,prefix="/leads",tags=["leads"])
 api_router.include_router(appointments.router,prefix="/appointments",tags=["appointments"])
-api_router.include_router(analytics.router,prefix="/analytics",tags=["analytics"])\napi_router.include_router(crm.router,prefix="/crm",tags=["crm"])\napi_router.include_router(dashboard.router,prefix="/dashboard",tags=["dashboard"])\napi_router.include_router(platform.router,prefix="/platform",tags=["platform"])\napi_router.include_router(voice.router,prefix="/voice",tags=["voice"])
+api_router.include_router(analytics.router,prefix="/analytics",tags=["analytics"])\napi_router.include_router(crm.router,prefix="/crm",tags=["crm"])\napi_router.include_router(dashboard.router,prefix="/dashboard",tags=["dashboard"])\napi_router.include_router(platform.router,prefix="/platform",tags=["platform"])\napi_router.include_router(voice.router,prefix="/voice",tags=["voice"])\napi_router.include_router(subscriptions.router,prefix="/subscriptions",tags=["subscriptions"])\napi_router.include_router(onboarding.router,prefix="/onboarding",tags=["onboarding"])\napi_router.include_router(users.router,prefix="/users",tags=["users"])
 
