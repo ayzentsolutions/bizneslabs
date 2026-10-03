@@ -7,3 +7,4 @@ api_router.include_router(organizations.router, prefix="/organizations", tags=["
 api_router.include_router(agents.router, prefix="/agents", tags=["agents"])
 api_router.include_router(inventory.router, prefix="/inventory", tags=["inventory"])
 api_router.include_router(knowledge.router, prefix="/knowledge", tags=["knowledge"])
+api_router.include_router(runtime.router, prefix="/runtime", tags=["runtime"])
