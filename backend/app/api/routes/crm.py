@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.auth.dependencies import AuthContext,get_auth_context,require_roles
 from app.db.session import get_db
-from app.models.entities import Lead,LeadStatus,Role
+from app.models.entities import Lead,LeadStatus,Role\nfrom app.services.audit import record_audit
 router=APIRouter()
 class LeadPatch(BaseModel):
     status:LeadStatus|None=None
