@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.auth.dependencies import AuthContext,get_auth_context,require_roles
 from app.db.session import get_db
-from app.models.entities import InventoryItem,InventoryStatus,Role
+from app.models.entities import InventoryItem,InventoryStatus,Role\nfrom app.services.audit import record_audit
 
 router=APIRouter()
 class InventoryCreate(BaseModel):
@@ -25,7 +25,7 @@ async def list_inventory(ctx:AuthContext=Depends(get_auth_context),db:AsyncSessi
 
 @router.post("/",status_code=201)
 async def create_inventory(payload:InventoryCreate,ctx:AuthContext=Depends(require_roles(Role.OWNER,Role.ADMIN,Role.AGENT_MANAGER)),db:AsyncSession=Depends(get_db)):
-    x=InventoryItem(organization_id=ctx.tenant_id,**payload.model_dump()); db.add(x); await db.commit(); await db.refresh(x); return item(x)
+    x=InventoryItem(organization_id=ctx.tenant_id,**payload.model_dump()); db.add(x); await record_audit(db,ctx.tenant_id,ctx.user_id,"CREATE","inventory",str(x.id),{"model":x.model,"status":x.status.value}); await db.commit(); await db.refresh(x); return item(x)
 
 @router.patch("/{item_id}")
 async def update_inventory(item_id:UUID,payload:InventoryPatch,ctx:AuthContext=Depends(require_roles(Role.OWNER,Role.ADMIN,Role.AGENT_MANAGER)),db:AsyncSession=Depends(get_db)):
