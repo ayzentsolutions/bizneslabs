@@ -10,6 +10,7 @@ branch_labels = None
 depends_on = None
 
 def upgrade() -> None:
+    op.execute("CREATE EXTENSION IF NOT EXISTS vector")
     role = sa.Enum("SUPER_ADMIN","OWNER","ADMIN","AGENT_MANAGER","VIEWER", name="role")
     inventory_status = sa.Enum("AVAILABLE","BOOKED","SOLD","RESERVED","MAINTENANCE","OUT_OF_STOCK", name="inventorystatus")
     lead_status = sa.Enum("NEW","CONTACTED","QUALIFIED","FOLLOW_UP","CONVERTED","LOST", name="leadstatus")
