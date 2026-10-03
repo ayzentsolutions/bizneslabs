@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.routes import auth,organizations,agents,inventory,knowledge,runtime,leads,appointments,analytics,health,crm,dashboard,platform,voice,subscriptions,onboarding,users
+from app.api.routes import auth,organizations,agents,inventory,knowledge,runtime,leads,appointments,analytics,health,crm,dashboard,platform,voice,subscriptions,onboarding,users,audit
 
 api_router=APIRouter()
 api_router.include_router(health.router,prefix="/health",tags=["health"])
@@ -18,4 +18,4 @@ api_router.include_router(platform.router,prefix="/platform",tags=["platform"])
 api_router.include_router(voice.router,prefix="/voice",tags=["voice"])
 api_router.include_router(subscriptions.router,prefix="/subscriptions",tags=["subscriptions"])
 api_router.include_router(onboarding.router,prefix="/onboarding",tags=["onboarding"])
-api_router.include_router(users.router,prefix="/users",tags=["users"])
+api_router.include_router(users.router,prefix="/users",tags=["users"])\napi_router.include_router(audit.router,prefix="/audit",tags=["audit"])
