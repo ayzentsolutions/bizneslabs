@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";\nimport type { ReactNode } from "react";
 
 const API=process.env.NEXT_PUBLIC_API_URL||"http://localhost:8000/api/v1";
 type Tab="overview"|"agent"|"inventory"|"leads"|"appointments"|"knowledge"|"calls"|"platform";
@@ -87,7 +87,7 @@ export default function Home(){
   </div>
 }
 
-function Table({rows,columns,action}:{rows:Row[],columns:string[],action?:(r:Row)=>React.ReactNode}){
+function Table({rows,columns,action}:{rows:Row[],columns:string[],action?:(r:Row)=>ReactNode}){
   if(!rows.length)return <div className="empty">No records yet.</div>;
   return <div className="table-wrap"><table><thead><tr>{columns.map(c=><th key={c}>{c.replaceAll("_"," ")}</th>)}{action&&<th>action</th>}</tr></thead><tbody>{rows.map((r,i)=><tr key={r.id||i}>{columns.map(c=><td key={c}>{String(r[c]??"—")}</td>)}{action&&<td>{action(r)}</td>}</tr>)}</tbody></table></div>
 }
