@@ -14,7 +14,7 @@ from app.services.inventory_service import InventoryService
 from app.tools.appointment import BookAppointmentTool
 from app.tools.inventory import CheckInventoryTool
 from app.tools.appointment_slots import CheckAppointmentSlotsTool
-from app.tools.lead import CreateLeadTool
+from app.tools.lead import CreateLeadTool\nfrom app.services.audit import record_audit
 
 router=APIRouter()
 
@@ -40,7 +40,7 @@ async def respond(payload:AgentMessage,ctx:AuthContext=Depends(get_auth_context)
         call.status="FAILED"; call.outcome="ERROR"; await db.commit()
         raise HTTPException(400,str(exc)) from exc
     selected=result.intent.get("name")
-    call.status="RESOLVED"; call.outcome=selected or "RAG_RESPONSE"
+    call.status="RESOLVED"; call.outcome=selected or "RAG_RESPONSE"\n    await record_audit(db,ctx.tenant_id,ctx.user_id,"AGENT_ACTION","call",str(call.id),{"intent":selected,"tool_result":result.tool_result})
     call.tools_used=json.dumps([selected] if result.tool_result is not None and selected else [])
     call.transcript=json.dumps([{"speaker":"customer","text":payload.message},{"speaker":"agent","text":result.text},*([{"speaker":"tool","name":selected,"result":result.tool_result}] if result.tool_result is not None else [])],default=str)
     await db.commit()
