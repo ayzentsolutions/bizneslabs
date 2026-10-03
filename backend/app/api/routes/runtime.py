@@ -27,7 +27,7 @@ class AgentMessage(BaseModel):
 
 @router.post("/respond")
 async def respond(payload:AgentMessage,ctx:AuthContext=Depends(get_auth_context),db:AsyncSession=Depends(get_db)):
-    if ctx.tenant_id is None: raise HTTPException(403,"Tenant context required")\n    if payload.agent_id is not None:\n        agent=(await db.execute(__import__("sqlalchemy").select(Agent).where(Agent.id==payload.agent_id,Agent.organization_id==ctx.tenant_id,Agent.active.is_(True)))).scalar_one_or_none()\n        if not agent: raise HTTPException(404,"Agent not found in tenant")\n    if payload.tool_name in {"create_lead","book_appointment"} and ctx.role not in {Role.OWNER,Role.ADMIN,Role.AGENT_MANAGER}:\n        raise HTTPException(403,"This action requires an agent-management role")
+    if ctx.tenant_id is None: raise HTTPException(403,"Tenant context required")\n    if payload.agent_id is not None:\n        agent=(await db.execute(__import__("sqlalchemy").select(Agent).where(Agent.id==payload.agent_id,Agent.organization_id==ctx.tenant_id,Agent.active.is_(True)))).scalar_one_or_none()\n        if not agent: raise HTTPException(404,"Agent not found in tenant")\n    if payload.tool_name in {"create_lead","book_appointment","schedule_callback"} and ctx.role not in {Role.OWNER,Role.ADMIN,Role.AGENT_MANAGER}:\n        raise HTTPException(403,"This action requires an agent-management role")
     call=Call(organization_id=ctx.tenant_id,agent_id=payload.agent_id,caller_phone=payload.caller_phone,status="IN_PROGRESS",transcript=json.dumps([{"speaker":"customer","text":payload.message}]),tools_used="[]")
     db.add(call); await db.flush()
     runtime=AgentRuntime(
