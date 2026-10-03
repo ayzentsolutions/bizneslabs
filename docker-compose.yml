@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: bizneslabs
+      POSTGRES_USER: bizneslabs
+      POSTGRES_PASSWORD: bizneslabs
+    ports: ["5432:5432"]
+    volumes: [bizneslabs_pg:/var/lib/postgresql/data]
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+  api:
+    build: ./backend
+    env_file: ./backend/.env
+    depends_on: [postgres, redis]
+    ports: ["8000:8000"]
+  frontend:
+    image: node:22-alpine
+    working_dir: /web
+    volumes: ["./frontend:/web"]
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000/api/v1
+    command: sh -c "npm install && npm run dev"
+    depends_on: [api]
+    ports: ["3000:3000"]
+volumes:
+  bizneslabs_pg:
