@@ -14,7 +14,7 @@ from app.services.inventory_service import InventoryService
 from app.tools.appointment import BookAppointmentTool
 from app.tools.inventory import CheckInventoryTool
 from app.tools.appointment_slots import CheckAppointmentSlotsTool
-from app.tools.lead import CreateLeadTool\nfrom app.services.audit import record_audit
+from app.tools.lead import CreateLeadTool\nfrom app.tools.callback import ScheduleCallbackTool\nfrom app.services.audit import record_audit
 
 router=APIRouter()
 
