@@ -13,6 +13,7 @@ from app.runtime.llm import MockGroundedLLM
 from app.services.inventory_service import InventoryService
 from app.tools.appointment import BookAppointmentTool
 from app.tools.inventory import CheckInventoryTool
+from app.tools.appointment_slots import CheckAppointmentSlotsTool
 from app.tools.lead import CreateLeadTool
 
 router = APIRouter()
@@ -43,6 +44,7 @@ async def respond(payload: AgentMessage, ctx: AuthContext = Depends(get_auth_con
             "check_inventory": CheckInventoryTool(InventoryService(db)),
             "create_lead": CreateLeadTool(db),
             "book_appointment": BookAppointmentTool(db),
+            "check_appointment_slots": CheckAppointmentSlotsTool(db),
         },
     )
     try:
